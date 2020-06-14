@@ -4,8 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class IHMQuestion2_2 extends JFrame {
-
+public class IHMQuestion2_2 extends JFrame  {
+        // default constructor 
+    //Mouse(){}
     private JButton boutonA = new JButton("A");
     private JButton boutonB = new JButton("B");
     private JButton boutonC = new JButton("C");
@@ -14,6 +15,8 @@ public class IHMQuestion2_2 extends JFrame {
 
  
     public IHMQuestion2_2() {
+        
+        
         super("IHM Question2_2");
         JPanel enHaut = new JPanel();
         enHaut.add(boutonA);
@@ -27,19 +30,21 @@ public class IHMQuestion2_2 extends JFrame {
         enHaut.setBackground(Color.magenta);
         
 
-        // à compléter à l'identique de la question 2_1, (du copier/coller)...
+        String o1="jbo1";
+        String o2="jbo2";
+        String o3="jbo3";
         // le bouton A a 3 observateurs jbo1, jbo2 et jbo3
-
+        boutonA.addActionListener(new JButtonObserver(o1, contenu));
+        boutonA.addActionListener(new JButtonObserver(o2, contenu));
+        boutonA.addActionListener(new JButtonObserver(o3, contenu));
         // le bouton B a 2 observateurs jbo1 et jbo2
-
+        boutonB.addActionListener(new JButtonObserver(o1, contenu));
+        boutonB.addActionListener(new JButtonObserver(o2, contenu));
         // le bouton C a 1 observateur jbo1
-
-        // à compléter pour la question 2_2 (JMouseObserver)
-            // le bouton A a 1 observateur jmo1
-            // le bouton B a 1 observateur jmo2
-            // le bouton C a 1 observateur jmo3
-        
+        boutonC.addActionListener(new JButtonObserver(o1, contenu));
+         
     }
+    
     
      public static void main(String[] args){
         new IHMQuestion2_1();

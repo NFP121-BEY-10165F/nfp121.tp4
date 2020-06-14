@@ -1,3 +1,4 @@
+
 package question3;
 
 import question3.tp3.PileI;
@@ -37,23 +38,106 @@ public class Controleur extends JPanel {
         donnee.addActionListener(null /* null est à remplacer */);
         JPanel boutons = new JPanel();
         boutons.setLayout(new FlowLayout());
-        boutons.add(push);  push.addActionListener(null /* null est à remplacer */);
-        boutons.add(add);   add.addActionListener(null /* null est à remplacer */);
-        boutons.add(sub);   sub.addActionListener(null /* null est à remplacer */);
-        boutons.add(mul);   mul.addActionListener(null /* null est à remplacer */);
-        boutons.add(div);   div.addActionListener(null /* null est à remplacer */);
-        boutons.add(clear); clear.addActionListener(null /* null est à remplacer */);
+        
+        ActionListener pushEvent=new ActionListener(){ public void actionPerformed(ActionEvent ae)
+            {
+                try{
+                    Integer op=operande();
+                    if(op!=null)
+                        pile.empiler(op);
+                    actualiserInterface();
+                }catch(NumberFormatException ex){}catch(question3.tp3.PilePleineException exp){}
+            }};
+            
+       ActionListener addEvent=new ActionListener(){ public void actionPerformed(ActionEvent ae)
+            {
+                try{
+                    pile.empiler(pile.depiler() + pile.depiler());
+                    actualiserInterface();
+                }catch(question3.tp3.PileVideException ex){}catch(question3.tp3.PilePleineException exp){}
+            }};
+       ActionListener subEvent=new ActionListener(){ public void actionPerformed(ActionEvent ae)
+            {
+                try{
+                    pile.empiler(pile.depiler() - pile.depiler());
+                    actualiserInterface();
+                }catch(question3.tp3.PileVideException ex){}catch(question3.tp3.PilePleineException exp){}
+            }};
+        ActionListener mulEvent=new ActionListener(){ public void actionPerformed(ActionEvent ae)
+            {
+                try{
+                    pile.empiler(pile.depiler() * pile.depiler());
+                    actualiserInterface();
+                }catch(question3.tp3.PileVideException ex){}catch(question3.tp3.PilePleineException exp){}
+            }};
+         ActionListener divEvent=new ActionListener(){ public void actionPerformed(ActionEvent ae)
+            {
+                try{
+                    int s=pile.depiler();
+                    if(s!=0)
+                        pile.empiler(pile.depiler() / s);
+                    actualiserInterface();
+                }catch(question3.tp3.PileVideException ex){}catch(question3.tp3.PilePleineException exp){}
+            }};
+        ActionListener clearEvent=new ActionListener(){ public void actionPerformed(ActionEvent ae)
+            {
+                try{
+                    while(pile.sommet()!=null)
+                        pile.depiler();
+                    actualiserInterface();
+                }catch(question3.tp3.PileVideException ex){}
+            }};
+        boutons.add(push);  push.addActionListener(pushEvent);
+        boutons.add(add);   add.addActionListener(addEvent);
+        boutons.add(sub);   sub.addActionListener(subEvent);
+        boutons.add(mul);   mul.addActionListener(mulEvent);
+        boutons.add(div);   div.addActionListener(divEvent);
+        boutons.add(clear); clear.addActionListener(clearEvent);
         add(boutons);
         boutons.setBackground(Color.red);
         actualiserInterface();
     }
 
     public void actualiserInterface() {
-        // à compléter
+        if(pile.estVide()){
+          add.setEnabled(false);
+          sub.setEnabled(false);
+          mul.setEnabled(false);
+          div.setEnabled(false);
+          clear.setEnabled(false);
+          push.setEnabled(true);
+       }
+        if(pile.taille()== 1){
+          add.setEnabled(false);
+          sub.setEnabled(false);
+          mul.setEnabled(false);
+          div.setEnabled(false);
+          clear.setEnabled(true);
+          push.setEnabled(true);
+        }
+         if(pile.taille()> 1){
+          add.setEnabled(true);
+          sub.setEnabled(true);
+          mul.setEnabled(true);
+          div.setEnabled(true);
+          clear.setEnabled(true);
+          push.setEnabled(true);
+        }
+         if(pile.estPleine()) {
+          push.setEnabled(false);
+          add.setEnabled(true);
+          sub.setEnabled(true);
+          mul.setEnabled(true);
+          div.setEnabled(true);
+          clear.setEnabled(true);
+        }
     }
 
     private Integer operande() throws NumberFormatException {
-        return Integer.parseInt(donnee.getText());
+        String text=donnee.getText();
+        if(text==null||text.isEmpty())
+            return null;
+        return Integer.parseInt(text);
     }
 
     // à compléter

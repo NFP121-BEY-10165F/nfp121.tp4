@@ -34,7 +34,7 @@ public class JMouseObserver { // à compléter
 	 * @param
 	 */
 	public void mouseEntered(MouseEvent e) {
-		String message = "";
+		String message = "observeur "+this.nom+" : souris entr�e en ("+e.getX()+","+ e.getY()+")";
 		contenu.append(message + "\n");
 	}
 
